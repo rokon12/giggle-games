@@ -2,7 +2,7 @@
 
 Play at **https://rokon12.github.io/giggle-games/**.
 
-Twelve browser games for toddlers: Pop, Munch, Sing, Peekaboo, Splat, Boom, Silly Face, Shapes, Drums, Tickle, Brush, and Grow.
+Thirteen browser games: Pop, Munch, Sing, Peekaboo, Splat, Boom, Silly Face, Shapes, Drums, Tickle, Brush, Grow, and a two-player Three in a Row game.
 
 ## Run locally
 
