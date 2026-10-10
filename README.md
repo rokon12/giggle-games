@@ -2,7 +2,7 @@
 
 Play at **https://rokon12.github.io/giggle-games/**.
 
-Four browser games for toddlers: balloon popping, feeding a monster, musical characters, and peekaboo.
+Twelve browser games for toddlers: Pop, Munch, Sing, Peekaboo, Splat, Boom, Silly Face, Shapes, Drums, Tickle, Brush, and Grow.
 
 ## Run locally
 
