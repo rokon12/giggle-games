@@ -1,6 +1,6 @@
 // Inference happens only in this worker after the grown-up opts in.
 // Remote origins supply static runtime/model files; no inference endpoint is used.
-import {CHARACTERS,ACTIONS,OBJECTS} from './local-ai.js';
+import {CHARACTERS,ACTIONS,OBJECTS} from './local-ai.js?v=nature2';
 let generator=null,loading=false,busy=false;
 self.onmessage=async({data})=>{
  try{
