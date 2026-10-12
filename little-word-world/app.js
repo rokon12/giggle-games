@@ -1,5 +1,5 @@
-import {WORDS,WORLDS,STORIES,LEVELS,LETTER_NAMES,wordById,freshProgress,sanitizeProgress,shuffle,choicesFor,nextWord,completeWord,chapterDone,validateLetter,MISSIONS,BOOKS,supportFor,recordReading,reviewWord,prepareMission,actMission,WORD_GAMES,currentGameRound,createWordGame,chooseWordGame,sentenceNextWords,nextWordGameRound,completeWordGame} from './model.js?v=wordgames2';
-import {LocalHelper,storyFromPlan,fallbackPlan} from './local-ai.js?v=wordgames2';
+import {WORDS,WORLDS,STORIES,LEVELS,LETTER_NAMES,wordById,freshProgress,sanitizeProgress,shuffle,choicesFor,nextWord,completeWord,chapterDone,validateLetter,MISSIONS,BOOKS,supportFor,recordReading,reviewWord,prepareMission,actMission,WORD_GAMES,currentGameRound,createWordGame,chooseWordGame,sentenceNextWords,nextWordGameRound,completeWordGame} from './model.js?v=helperfix1';
+import {LocalHelper,storyFromPlan,fallbackPlan} from './local-ai.js?v=helperfix1';
 
 const $=s=>document.querySelector(s);
 const KEY='little-word-world-v1';
@@ -40,7 +40,7 @@ function speak(key,text,replace=true){
   };
   watchdog=setTimeout(done,15000);
   if(!key){fallback();return;}
-  const url=`assets/audio/${key}.mp3?v=wordgames2`;
+  const url=`assets/audio/${key}.mp3?v=helperfix1`;
   const a=new Audio(globalThis.__LWW_AUDIO__?.[key]||url);activeAudio=a;a.volume=.82;a.onended=done;a.onerror=fallback;a.play().catch(fallback);
  });
 }

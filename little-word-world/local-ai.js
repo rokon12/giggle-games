@@ -27,11 +27,11 @@ export class LocalHelper{
   if(this.status==='loading'||this.status==='ready')return;
   if(typeof Worker==='undefined'||!globalThis.isSecureContext||!navigator.gpu){this.status='error';this.message='This browser does not offer WebGPU here. The built-in stories are ready to play.';this.notify();return;}
   this.status='loading';this.percent=0;this.message='Checking this device, then downloading the local helper…';this.notify();
-  try{this.worker=new Worker(globalThis.__LWW_WORKER_URL__||new URL('./ai-worker.js?v=wordgames2',import.meta.url),{type:'module'});this.worker.onmessage=({data})=>{
+  try{this.worker=new Worker(globalThis.__LWW_WORKER_URL__||new URL('./ai-worker.js?v=helperfix1',import.meta.url),{type:'module'});this.worker.onmessage=({data})=>{
    if(data.type==='progress'){this.percent=Math.max(this.percent,Number(data.percent)||0);this.message=data.message||'Downloading the model…';this.notify();}
    if(data.type==='ready'){clearTimeout(this.loadTimer);this.status='ready';this.percent=100;this.message='';this.notify();}
    if(data.type==='result'&&this.pending?.id===data.id){const p=this.pending;clearTimeout(p.timer);this.pending=null;p.resolve(validatePlan(data.text,p.collected)||fallbackPlan(p.collected));}
-   if(data.type==='error')this.fail(data.code==='unsupported'?'This device lacks the GPU support this model needs. Built-in stories are still available.':'The local helper could not load or run. Check your connection and try again. Built-in stories still work.');
+   if(data.type==='error'){console.error('[Pip local helper]',data.code,data.detail||'');this.fail(data.code==='unsupported'?'This device lacks the GPU support this model needs. Built-in stories are still available.':data.code==='runtime'?'The AI software could not download. Try again when the download servers are reachable. Built-in stories still work.':data.code==='inference'?'The local model stopped while choosing a story. Built-in stories still work.':'The model could not start on this device. Built-in stories still work.');}
   };this.worker.onerror=()=>this.fail('This browser could not start the local helper. Built-in stories still work.');
   this.worker.postMessage({type:'load'});this.loadTimer=setTimeout(()=>this.fail('The download took too long. You can try again when your connection is ready.'),240000);
   }catch{this.fail('The local helper is unavailable in this browser. Built-in stories still work.');}
