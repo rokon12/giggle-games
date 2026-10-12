@@ -67,5 +67,20 @@
   "letter-s": "ess",
   "letter-t": "tee",
   "letter-u": "you",
-  "letter-x": "ex"
+  "letter-x": "ex",
+  "blend-prompt": "Touch each sound. Then slide your finger under the word.",
+  "mission-0": "Fox needs a way across. Let’s build a log bridge.",
+  "mission-1": "The bridge is ready. Help Fox take a little walk.",
+  "mission-2": "A cup for our picnic. Let’s get it ready.",
+  "mission-done": "Fox is across and our picnic is ready. A lovely place to stop.",
+  "mission-log": "The log makes a bridge.",
+  "mission-fox": "Fox is safely across!",
+  "mission-cup": "Our picnic is ready!",
+  "rest": "Our adventure is saved. See you next time.",
+  "book-prompt": "Read together. Touch a word to hear it.",
+  "book-done": "The end. You read a little book!",
+  "bookword-a": "a",
+  "bookword-in": "in",
+  "bookword-on": "on",
+  "bookword-and": "and"
 }
