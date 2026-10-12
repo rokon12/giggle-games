@@ -1,10 +1,10 @@
-import {WORDS,WORLDS,STORIES,LEVELS,LETTER_NAMES,wordById,freshProgress,sanitizeProgress,shuffle,choicesFor,nextWord,completeWord,chapterDone,validateLetter,SOUNDS,soundUnits,MISSIONS,BOOKS,supportFor,recordReading,reviewWord,prepareMission,actMission} from './model.js?v=adventure1';
-import {LocalHelper,storyFromPlan,fallbackPlan} from './local-ai.js?v=adventure1';
+import {WORDS,WORLDS,STORIES,LEVELS,LETTER_NAMES,wordById,freshProgress,sanitizeProgress,shuffle,choicesFor,nextWord,completeWord,chapterDone,validateLetter,SOUNDS,soundUnits,MISSIONS,BOOKS,supportFor,recordReading,reviewWord,prepareMission,actMission} from './model.js?v=adventure2';
+import {LocalHelper,storyFromPlan,fallbackPlan} from './local-ai.js?v=adventure2';
 
 const $=s=>document.querySelector(s);
 const KEY='little-word-world-v1';
 let storageAvailable=true;
-let progress;try{progress=sanitizeProgress(JSON.parse(localStorage.getItem(KEY)));}catch{progress=freshProgress();}
+let progress=freshProgress();try{const raw=localStorage.getItem(KEY);try{progress=sanitizeProgress(JSON.parse(raw));}catch{}}catch{storageAvailable=false;}
 let bookView=null,crossing=false,journey=false,blendDrag=null;
 let screen='home',quest=null,modal=null,activeAudio=null,audioToken=0,audioContext=null,toastTimer=null,transitionTimer=null,returnFocus=null,aiStory=null;
 const helper=new LocalHelper(updateAIStatus);
@@ -25,7 +25,7 @@ const icon=name=>`<svg viewBox="0 0 24 24" aria-hidden="true">${icons[name]||ico
 const sprite=(id,extra='')=>{const w=wordById(id);return `<span class="sprite ${extra}" role="img" aria-label="${id}" style="background-position:${w.sprite%3*50}% ${Math.floor(w.sprite/3)*50}%"></span>`;};
 const pip=(extra='')=>`<span class="pip-actor ${extra}" role="img" aria-label="Pip, your little field mouse guide"></span>`;
 const btn=(action,label,cls='soft-button',extra='')=>`<button class="${cls}" data-action="${action}" ${extra}>${label}</button>`;
-function save(){try{localStorage.setItem(KEY,JSON.stringify(progress));}catch{storageAvailable=false;}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(progress));storageAvailable=true;}catch{storageAvailable=false;}}
 let audioResolve=null;
 function stopAudio(){audioToken++;if(activeAudio){activeAudio.pause();activeAudio=null;}window.speechSynthesis?.cancel();const done=audioResolve;audioResolve=null;done?.();document.querySelectorAll?.('.speaking').forEach(el=>el.classList.remove('speaking'));}
 function speak(key,text,replace=true){
@@ -40,7 +40,7 @@ function speak(key,text,replace=true){
   };
   watchdog=setTimeout(done,15000);
   if(!key){fallback();return;}
-  const url=key.startsWith('sound-')?`assets/phonemes/${key.slice(6)}.mp3?v=adventure1`:`assets/audio/${key}.mp3?v=adventure1`;
+  const url=key.startsWith('sound-')?`assets/phonemes/${key.slice(6)}.mp3?v=adventure2`:`assets/audio/${key}.mp3?v=adventure2`;
   const a=new Audio(globalThis.__LWW_AUDIO__?.[key]||url);activeAudio=a;a.volume=.82;a.onended=done;a.onerror=fallback;a.play().catch(fallback);
  });
 }
@@ -119,7 +119,7 @@ async function tinyStory(target){
 }
 let suppressedClick=false;
 document.addEventListener('click',e=>{
- const b=e.target.closest('button[data-action]');if(!b||b.disabled)return;if(suppressedClick&&b.classList.contains('garden-object')){suppressedClick=false;return;}
+ const b=e.target.closest('button[data-action]');if(!b||b.disabled)return;if(suppressedClick&&(b.classList.contains('garden-object')||b.classList.contains('mission-token'))){suppressedClick=false;return;}
  const a=b.dataset.action,id=b.dataset.word;blendRun++;lastBlendIndex=-1;blendQueue=Promise.resolve();switch(a){
  case'adventure':openAdventure();break;case'mission-learn':startWord(MISSIONS[progress.adventure.step]?.word,true);break;case'mission-act':useMission();break;case'replay-adventure':progress.adventure={step:0,ready:false};save();openAdventure();break;
  case'library':navigate('library');break;case'open-book':openBook(b.dataset.book);break;case'book-next':turnPage(1);break;case'book-prev':turnPage(-1);break;case'book-read':readPage();break;case'book-word':speak(wordById(id)?`word-${id}`:`bookword-${id}`,id);break;case'book-answer':answerBook(id);break;
@@ -247,5 +247,5 @@ document.addEventListener('pointerdown',e=>{
  blendDrag={el:token,x:e.clientX,y:e.clientY,moved:false};token.setPointerCapture(e.pointerId);
 });
 document.addEventListener('pointermove',e=>{if(!blendDrag)return;const d=blendDrag;if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>8)d.moved=true;if(d.moved){e.preventDefault();d.el.style.transform=`translate(${e.clientX-d.x}px,${e.clientY-d.y}px)`;}},{passive:false});
-document.addEventListener('pointerup',e=>{if(!blendDrag)return;const d=blendDrag;blendDrag=null;d.el.style.transform='';if(!d.moved)return;const r=$('.mission-target')?.getBoundingClientRect();if(r&&e.clientX>r.left-40&&e.clientX<r.right+40&&e.clientY>r.top-40&&e.clientY<r.bottom+40)useMission();});
+document.addEventListener('pointerup',e=>{if(!blendDrag)return;const d=blendDrag;blendDrag=null;d.el.style.transform='';if(!d.moved)return;suppressedClick=true;setTimeout(()=>suppressedClick=false,100);const r=$('.mission-target')?.getBoundingClientRect();if(r&&e.clientX>r.left-40&&e.clientX<r.right+40&&e.clientY>r.top-40&&e.clientY<r.bottom+40)useMission();});
 document.addEventListener('pointercancel',()=>{if(blendDrag){blendDrag.el.style.transform='';blendDrag=null;}});
