@@ -1,5 +1,5 @@
-import {WORDS,WORLDS,STORIES,LEVELS,LETTER_NAMES,wordById,freshProgress,sanitizeProgress,shuffle,choicesFor,nextWord,completeWord,chapterDone,validateLetter,MISSIONS,BOOKS,supportFor,recordReading,reviewWord,prepareMission,actMission,WORD_GAMES,currentGameRound,createWordGame,chooseWordGame,sentenceNextWords,nextWordGameRound,completeWordGame} from './model.js?v=wordgames1';
-import {LocalHelper,storyFromPlan,fallbackPlan} from './local-ai.js?v=wordgames1';
+import {WORDS,WORLDS,STORIES,LEVELS,LETTER_NAMES,wordById,freshProgress,sanitizeProgress,shuffle,choicesFor,nextWord,completeWord,chapterDone,validateLetter,MISSIONS,BOOKS,supportFor,recordReading,reviewWord,prepareMission,actMission,WORD_GAMES,currentGameRound,createWordGame,chooseWordGame,sentenceNextWords,nextWordGameRound,completeWordGame} from './model.js?v=wordgames2';
+import {LocalHelper,storyFromPlan,fallbackPlan} from './local-ai.js?v=wordgames2';
 
 const $=s=>document.querySelector(s);
 const KEY='little-word-world-v1';
@@ -40,7 +40,7 @@ function speak(key,text,replace=true){
   };
   watchdog=setTimeout(done,15000);
   if(!key){fallback();return;}
-  const url=`assets/audio/${key}.mp3?v=wordgames1`;
+  const url=`assets/audio/${key}.mp3?v=wordgames2`;
   const a=new Audio(globalThis.__LWW_AUDIO__?.[key]||url);activeAudio=a;a.volume=.82;a.onended=done;a.onerror=fallback;a.play().catch(fallback);
  });
 }
@@ -225,7 +225,7 @@ document.addEventListener('pointerup',e=>{if(!missionDrag)return;const d=mission
 document.addEventListener('pointercancel',()=>{if(missionDrag){missionDrag.el.style.transform='';missionDrag=null;}});
 
 function wordGamesHub(){
- return `${header()}<main class="wordgames-hub"><div class="wordgames-heading"><span class="eyebrow">A LITTLE PLAY. A NEW DISCOVERY.</span><h1>Let’s play with words.</h1><p>Pick a game. Three little puzzles, at your own pace.</p></div><div class="wordgames-menu">${Object.entries(WORD_GAMES).map(([kind,game])=>`<button class="wordgame-door door-${kind}" data-action="wg-start" data-game="${kind}"><span class="door-art">${kind==='swap'?`${sprite('cat','door-cat')}${sprite('hat','door-hat')}<span class="door-letters" aria-hidden="true">c ${icon('arrow')} h</span>`:kind==='pairs'?`${sprite('bug','door-bug')}<span class="door-word" aria-hidden="true">bug</span>`:`${sprite('fox','door-fox')}${sprite('hen','door-hen')}<span class="door-sentence" aria-hidden="true">a fox and a hen</span>`}</span><span class="door-copy"><strong>${game.name}</strong><span>${game.detail}</span></span><span class="door-play">Let’s play ${icon('arrow')}</span></button>`).join('')}</div><div class="wordgames-bottom">${btn('garden',`${icon('home')} My garden`,'soft-button')}${btn('library',`${icon('book')} Little books`,'soft-button')}${btn('rest','Done for now','soft-button')}</div></main>`;
+ return `${header()}<main class="wordgames-hub"><div class="wordgames-heading"><span class="eyebrow">A LITTLE PLAY. A NEW DISCOVERY.</span><h1>Let’s play with words.</h1><p>Pick a game. Three little puzzles, at your own pace.</p></div><div class="wordgames-menu">${Object.entries(WORD_GAMES).map(([kind,game])=>`<button class="wordgame-door door-${kind}" data-action="wg-start" data-game="${kind}"><span class="door-art">${kind==='swap'?`${sprite('cat','door-cat')}${sprite('hat','door-hat')}<span class="door-letters" aria-hidden="true">c ${icon('arrow')} h</span>`:kind==='pairs'?`${sprite('bug','door-bug')}<span class="door-word" aria-hidden="true">bug</span>`:`${sprite('fox','door-fox')}${sprite('hen','door-hen')}<span class="door-phrase" aria-hidden="true">a fox and a hen</span>`}</span><span class="door-copy"><strong>${game.name}</strong><span>${game.detail}</span></span><span class="door-play">Let’s play ${icon('arrow')}</span></button>`).join('')}</div><div class="wordgames-bottom">${btn('garden',`${icon('home')} My garden`,'soft-button')}${btn('library',`${icon('book')} Little books`,'soft-button')}${btn('rest','Done for now','soft-button')}</div></main>`;
 }
 function startWordGame(kind){
  const state=createWordGame(kind,progress.wordGames[kind]);if(!state)return;
@@ -237,7 +237,7 @@ function gameScene(scene,solved=true,from=null,to=null){
  else if(scene==='dog')cast=`<span class="wg-actor actor-dog ${!solved&&from==='log'?'not-yet':''}">${sprite('dog')}</span><span class="wg-actor actor-log ${!solved&&from==='dog'?'not-yet':''} ${solved&&to==='log'?'log-arrives':''}">${sprite('log')}</span>`;
  else if(scene==='bug')cast=`<span class="wg-actor actor-log">${sprite('log')}</span><span class="wg-actor actor-bug">${sprite('bug')}</span>`;
  else cast=`<span class="wg-actor actor-fox">${sprite('fox')}</span><span class="wg-actor actor-hen">${sprite('hen')}</span>`;
- return `<div class="wordgame-scene scene-${scene} ${solved?'scene-complete':''}" aria-label="${scene==='cat'?'A cat and a hat':scene==='dog'?'A dog and a log':scene==='bug'?'A bug on a log':'A fox and a hen'}">${cast}</div>`;
+ return `<div class="wordgame-scene scene-${scene} ${solved?'scene-complete':''}" aria-label="${!solved&&from?`A ${from}`:scene==='cat'?'A cat in a hat':scene==='dog'?'A dog and a log':scene==='bug'?'A bug on a log':'A fox and a hen'}">${cast}</div>`;
 }
 function wordGameScreen(){
  if(!wordPlay)return wordGamesHub();const game=WORD_GAMES[wordPlay.kind];
