@@ -20,7 +20,7 @@ export const STORIES = [
  {parts:['a','fox','and','a'], answer:'hen', cast:['fox','hen'], options:['hen','cup','cat'], label:'Friends for a picnic'}
 ];
 export const LEVELS = {
- sprout:{name:'Little sprout', detail:'Match letters, hear sounds, and build with clues.', choices:2, ghost:true},
+ sprout:{name:'Little sprout', detail:'Match letters and build words with clues.', choices:2, ghost:true},
  grow:{name:'Growing reader', detail:'Build new words. Try fresh reading checks on familiar words.', choices:3, ghost:false},
  bloom:{name:'Ready to bloom', detail:'Start with a fresh reading check, with help on tap.', choices:3, ghost:false}
 };
@@ -70,15 +70,6 @@ export function completeWord(progress,id){
 export function chapterDone(progress,world){return WORLDS[world].words.every(id=>progress.collected.includes(id));}
 export function validateLetter(word,filled,letter){return filled.length<word.length&&word[filled.length]===letter;}
 
-// Graphemes and sounds are separate: x represents /k/ followed by /s/.
-export const SOUNDS={
- sun:[['s','s'],['u','uh'],['n','n']],cat:[['c','k'],['a','a'],['t','t']],
- hat:[['h','h'],['a','a'],['t','t']],log:[['l','l'],['o','o'],['g','g']],
- dog:[['d','d'],['o','o'],['g','g']],bug:[['b','b'],['u','uh'],['g','g']],
- fox:[['f','f'],['o','o'],['x','k','s']],hen:[['h','h'],['e','e'],['n','n']],
- cup:[['c','k'],['u','uh'],['p','p']]
-};
-export const soundUnits=id=>(SOUNDS[id]||[]).flatMap((group,index)=>group.slice(1).map(sound=>({letter:group[0],sound,index})));
 export const MISSIONS=[
  {word:'log',title:'A bridge for Fox',prompt:'Fox needs a way across. Let’s build a log bridge.',action:'Place the log',done:'The log makes a bridge.'},
  {word:'fox',title:'Across the stream',prompt:'The bridge is ready. Help Fox take a little walk.',action:'Help Fox cross',done:'Fox is safely across!'},
