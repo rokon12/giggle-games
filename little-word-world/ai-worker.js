@@ -1,6 +1,6 @@
 // Inference happens only in this worker after the grown-up opts in.
 // Remote origins supply static runtime/model files; no inference endpoint is used.
-import {CHARACTERS,ACTIONS,OBJECTS} from './local-ai.js?v=helperfix1';
+import {CHARACTERS,ACTIONS,OBJECTS} from './local-ai.js?v=helperfix2';
 let generator=null,loading=false,busy=false,phase='device';
 self.onmessage=async({data})=>{
  try{
@@ -10,11 +10,19 @@ self.onmessage=async({data})=>{
    phase='runtime';
    const {pipeline,env}=await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1/dist/transformers.min.js');
    env.allowLocalModels=false;env.useBrowserCache=true;
+   // GitHub Pages does not provide cross-origin isolation for WASM threads.
+   // The model still runs on WebGPU; its WASM support code uses one thread.
+   env.backends.onnx.wasm.numThreads=1;
    phase='model';
-   generator=await pipeline('text-generation','onnx-community/SmolLM2-135M-Instruct-ONNX',{
+   // Use the publisher's WebGPU-optimized export. The community conversion
+   // failed at session creation on the test Mac despite passing GPU checks.
+   generator=await pipeline('text-generation','HuggingFaceTB/SmolLM2-135M-Instruct',{
     device:'webgpu',dtype:'q4f16',
     progress_callback:p=>{if(p.status==='progress')self.postMessage({type:'progress',percent:p.file?.endsWith('.onnx')?Math.round(p.progress||0):0,message:p.file?.endsWith('.onnx')?'Downloading the little model…':'Preparing model files…'});else if(p.status==='done')self.postMessage({type:'progress',message:'Preparing the model on your device…'});}
    });
+   phase='warmup';
+   self.postMessage({type:'progress',percent:99,message:'Trying the model on your device…'});
+   await generator('a',{max_new_tokens:1,do_sample:false});
    self.postMessage({type:'ready'});loading=false;
   }
   if(data.type==='plan'&&generator&&!busy){
