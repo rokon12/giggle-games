@@ -2,7 +2,7 @@
 
 Play at **https://rokon12.github.io/giggle-games/**.
 
-Eighteen browser games: Pop, Munch, Sing, Peekaboo, Splat, Boom, Silly Face, Shapes, Drums, Tickle, Brush, Grow, a two-player Three in a Row game, Color Mixer, Weather Painter, Color Code Door, Dragon Diner, and Little Word World.
+Eighteen browser games: Pop, Munch, Sing, Peekaboo, Splat, Boom, Silly Face, Shapes, Drums, Tickle Monster, Brush, Grow, a two-player Three in a Row game, Color Mixer, Weather Painter, Color Code Door, Dragon Diner, and Little Word World.
 
 Open these games from the Giggle Games menu, or play directly:
 
@@ -10,6 +10,7 @@ Open these games from the Giggle Games menu, or play directly:
 - [Weather Painter](https://rokon12.github.io/giggle-games/weather-painter.html)
 - [Color Code Door](https://rokon12.github.io/giggle-games/color-code-door.html)
 - [Dragon Diner](https://rokon12.github.io/giggle-games/dragon-diner.html)
+- [Tickle Monster](https://rokon12.github.io/giggle-games/tickle-monster.html) — replaces the original Tickle game.
 - [Little Word World](https://rokon12.github.io/giggle-games/little-word-world/) — a narrated reading adventure with Pip the mouse.
 
 Use each game's back arrow to return to the menu.
