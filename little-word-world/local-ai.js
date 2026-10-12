@@ -27,7 +27,7 @@ export class LocalHelper{
   if(this.status==='loading'||this.status==='ready')return;
   if(typeof Worker==='undefined'||!globalThis.isSecureContext||!navigator.gpu){this.status='error';this.message='This browser does not offer WebGPU here. The built-in stories are ready to play.';this.notify();return;}
   this.status='loading';this.percent=0;this.message='Checking this device, then downloading the local helper…';this.notify();
-  try{this.worker=new Worker(globalThis.__LWW_WORKER_URL__||new URL('./ai-worker.js?v=clearwords1',import.meta.url),{type:'module'});this.worker.onmessage=({data})=>{
+  try{this.worker=new Worker(globalThis.__LWW_WORKER_URL__||new URL('./ai-worker.js?v=wordgames1',import.meta.url),{type:'module'});this.worker.onmessage=({data})=>{
    if(data.type==='progress'){this.percent=Math.max(this.percent,Number(data.percent)||0);this.message=data.message||'Downloading the model…';this.notify();}
    if(data.type==='ready'){clearTimeout(this.loadTimer);this.status='ready';this.percent=100;this.message='';this.notify();}
    if(data.type==='result'&&this.pending?.id===data.id){const p=this.pending;clearTimeout(p.timer);this.pending=null;p.resolve(validatePlan(data.text,p.collected)||fallbackPlan(p.collected));}
