@@ -2,7 +2,7 @@
 
 Play at **https://rokon12.github.io/giggle-games/**.
 
-Eighteen browser games: Balloon Party, Munch Bunch, Sing, Peekaboo, Splat, Boom, Face Friend, Shapes, Drums, Tickle Monster, Brush Buddies, Bloom Buddy, a two-player Three in a Row game, Color Mixer, Weather Painter, Color Code Door, Dragon Diner, and Little Word World.
+Eighteen browser games: Balloon Party, Munch Bunch, Sing, Peekaboo Pals, Splat, Boom, Face Friend, Shapes, Drums, Tickle Monster, Brush Buddies, Bloom Buddy, a two-player Three in a Row game, Color Mixer, Weather Painter, Color Code Door, Dragon Diner, and Little Word World.
 
 Open these games from the Giggle Games menu, or play directly:
 
@@ -10,6 +10,7 @@ Open these games from the Giggle Games menu, or play directly:
 - [Weather Painter](https://rokon12.github.io/giggle-games/weather-painter.html)
 - [Color Code Door](https://rokon12.github.io/giggle-games/color-code-door.html)
 - [Dragon Diner](https://rokon12.github.io/giggle-games/dragon-diner.html)
+- [Peekaboo Pals](https://rokon12.github.io/giggle-games/peekaboo-pals.html) — replaces the original Peekaboo game.
 - [Bloom Buddy](https://rokon12.github.io/giggle-games/bloom-buddy.html) — replaces the original Grow game.
 - [Brush Buddies](https://rokon12.github.io/giggle-games/brush-buddies.html) — replaces the original Brush game.
 - [Balloon Party](https://rokon12.github.io/giggle-games/balloon-party.html) — replaces the original Pop game.
